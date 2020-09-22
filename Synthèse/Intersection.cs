@@ -11,7 +11,7 @@ namespace Synthese
     public class Intersection
     {
 
-
+        //
         struct RaySphereIntersection
         {
             public float distance;
@@ -31,6 +31,7 @@ namespace Synthese
             public float radius;
         }
 
+        //
         RaySphereIntersection? IntersectionRaySphere(Ray ray, Sphere sphere)
         {
             Vector3 m = ray.origin - sphere.center;
@@ -67,6 +68,7 @@ namespace Synthese
             return result;
         }
 
+        //
         public void Fill()
         {
             uint height = 1000;
@@ -91,11 +93,7 @@ namespace Synthese
                         img.SetPixel(x, y, Color.Red);
                 }
             }
-
-
             img.SaveToFile("C:/Users/NadjetTOBBAL/Desktop/imgtest.png");
-
-
         }
     }
 
