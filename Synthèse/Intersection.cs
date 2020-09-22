@@ -11,7 +11,7 @@ namespace Synthese
     public class Intersection
     {
 
-        //
+        //crée les données (la distance entre l'origine et l'objet détecté, le point d'intersection et son vecteur normal) de l'intersection
         struct RaySphereIntersection
         {
             public float distance;
@@ -19,21 +19,24 @@ namespace Synthese
             public Vector3 normal;
         }
 
+        //crée les données (son point d'origine et sa direction) du ray
         struct Ray
         {
             public Vector3 origin;
             public Vector3 direction; //always normalize
         }
 
+        //crée les données (l'emplacement de son centre et son radius) de la sphère
         struct Sphere
         {
             public Vector3 center;
             public float radius;
         }
 
-        //
+        //récupère le premier point d'intersection atteint par le ray
         RaySphereIntersection? IntersectionRaySphere(Ray ray, Sphere sphere)
         {
+
             Vector3 m = ray.origin - sphere.center;
             float b = Vector3.Dot(m, ray.direction);
             float c = Vector3.Dot(m, m) - sphere.radius * sphere.radius;
@@ -68,7 +71,7 @@ namespace Synthese
             return result;
         }
 
-        //
+        //remplit chaque pixel d'une image avec une couleur (changeante selon si un objet a été détecté par le ray)
         public void Fill()
         {
             uint height = 1000;
@@ -76,6 +79,7 @@ namespace Synthese
 
             Image img = new Image(width, height, Color.Blue);
 
+            //remplit chaque pixel (x, y)
             for (uint x = 0 ; x < img.Size.X; ++x)
             {
                 for (uint y = 0; y < img.Size.Y; ++y)
@@ -93,6 +97,7 @@ namespace Synthese
                         img.SetPixel(x, y, Color.Red);
                 }
             }
+
             img.SaveToFile("C:/Users/NadjetTOBBAL/Desktop/imgtest.png");
         }
     }
