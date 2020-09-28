@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{DC5E95B5-56AC-4088-894A-973FD6DDB5E6}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Synthèse</RootNamespace>
-    <AssemblyName>Synthèse</AssemblyName>
+    <RootNamespace>Synthese</RootNamespace>
+    <AssemblyName>Synthese</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -81,13 +81,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="csfml-Audio.dll" />
-    <Content Include="csfml-Graphics.dll" />
-    <Content Include="csfml-System.dll" />
-    <Content Include="csfml-Window.dll" />
-    <Content Include="openal32.dll" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
