@@ -11,7 +11,7 @@ namespace Synthese
     public class Intersection
     {
 
-        //crée les données (la distance entre l'origine et l'objet détecté, le point d'intersection et son vecteur normal) de l'intersection
+        //crée les données de l'intersection (la distance entre l'origine et l'objet détecté, le point d'intersection et son vecteur normal)
         struct RaySphereIntersection
         {
             public float distance;
@@ -19,14 +19,14 @@ namespace Synthese
             public Vector3 normal;
         }
 
-        //crée les données (son point d'origine et sa direction) du ray
+        //crée les données du ray (son point d'origine et sa direction)
         struct Ray
         {
             public Vector3 origin;
             public Vector3 direction; //always normalize
         }
 
-        //crée les données (l'emplacement de son centre et son radius) de la sphère
+        //crée les données de la sphère (l'emplacement de son centre et son radius)
         struct Sphere
         {
             public Vector3 center;
