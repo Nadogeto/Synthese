@@ -20,13 +20,6 @@ namespace Synthese
             public Vector3 normal;
         }
 
-        struct LightIntersection
-        {
-            public float distance;
-            public Vector3 point;
-            public Vector3 normal;
-        }
-
         //crée les données du ray (son point d'origine et sa direction)
         struct Ray
         {
@@ -35,16 +28,41 @@ namespace Synthese
         }
 
         //crée les données de la sphère (l'emplacement de son centre et son radius)
-        struct Sphere
+        public struct Sphere
         {
-            public Vector3 center;
-            public float radius;
+            Vector3 center;
+            float radius;
+
+            public Sphere(Vector3 center, float radius)
+            {
+                this.center = center;
+                this.radius = radius;
+            }
         }
 
-        struct Light
+        //crée les données de la lumière (l'emplacement et son intensité)
+        public struct Light
         {
-            
+            public Point position;
+            public float intensity;
+
+            public Light(Point position, float intensity)
+            {
+                this.position = position;
+                this.intensity = intensity;
+            }
         }
+
+        private static IList<Sphere> geometry = new List<Sphere>() {
+            new Sphere(new Vector3(-1, 1, 10), 2),
+            new Sphere(new Vector3(1, -1, 4), 1),
+            new Sphere(new Vector3(0, -255, 0), 250),
+        };
+
+        private static IList<Light> lights = new List<Light>() {
+            new Light(new Point(0, 6, 0), 60),
+            new Light(new Point(-2, 4, 1), 15),
+            };
 
         //récupère le premier point d'intersection atteint par le ray
         RaySphereIntersection? IntersectionRaySphere(Ray ray, Sphere sphere)
@@ -81,22 +99,39 @@ namespace Synthese
             result.point = ray.origin + result.distance * ray.direction;
             result.normal = Vector3.Normalize(result.point - sphere.center);
 
+
+
             return result;
         }
 
-
-        LightIntersection? IntersectionSphereLight(Ray ray, Light light)
+        public static bool Intersect(Ray ray, out int sphereIndex, out float distance,
+                                             float minDistance = 0, float maxDistance = float.MaxValue)
         {
+            distance = maxDistance;
+            sphereIndex = -1;
 
+            for (int t = 0; t < geometry.Count; ++t)
+            {
+                float distToSphere;
 
-            LightIntersection r;
-            return r;
+                if (geometry[t].Intersect(ray, out distToSphere))
+                {
+                    if ((minDistance <= distToSphere) && (distToSphere < distance))
+                    {
+                        distance = distToSphere;
+                        sphereIndex = t;
+                    }
+                }
+            }
+
+            return sphereIndex != -1;
         }
 
 
         //remplit chaque pixel d'une image avec une couleur (changeante selon si un objet a été détecté par le ray)
         public void Fill()
         {
+
             uint height = 1000;
             uint width = 1000;
 
@@ -118,6 +153,28 @@ namespace Synthese
                     var intersection = IntersectionRaySphere(ray, sphere);
                     if (intersection != null)
                         img.SetPixel(x, y, Color.Red);
+
+                    foreach (var light in lights)
+                    {
+                        Point hitPoint = ray.origin + distance * ray.direction;
+                        Vector hitPointToLight = light.position - hitPoint;
+                        float distanceToLight = Vector.Length(hitPointToLight);
+
+                        Ray lightRay = new Ray(hitPoint, hitPointToLight);
+
+                        float distanceToObstacle;
+                        int unused;
+
+                        if (!Intersect(lightRay, out unused, out distanceToObstacle, 1e-4f, distanceToLight))
+                        {
+                            // there is no obstacle, so this light is visible from the hit
+                            // point. therefore, calculate the amount of light here...
+
+                            // lighting term = sphere color * dot(light vector, normal) * intensity / distance^2
+                            color += materials[hitSphere] * Math.Max(0, Vector.Dot(lightRay.Direction, normal)) * light.intensity / (float)Math.Pow(distanceToLight, 2);
+                        }
+                    }
+
                 }
             }
 
