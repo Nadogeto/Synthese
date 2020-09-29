@@ -6,6 +6,7 @@ using System.Text;
 using System.Drawing;
 using SFML.Graphics;
 
+
 namespace Synthese
 {
     public class Intersection
@@ -98,7 +99,7 @@ namespace Synthese
                 }
             }
 
-            img.SaveToFile("C:/Users/NadjetTOBBAL/Desktop/imgtest.png");
+            img.SaveToFile("C:/Users/ntobbal/Desktop/imgtest.png");
         }
     }
 
