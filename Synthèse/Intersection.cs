@@ -20,6 +20,13 @@ namespace Synthese
             public Vector3 normal;
         }
 
+        struct LightIntersection
+        {
+            public float distance;
+            public Vector3 point;
+            public Vector3 normal;
+        }
+
         //crée les données du ray (son point d'origine et sa direction)
         struct Ray
         {
@@ -32,6 +39,11 @@ namespace Synthese
         {
             public Vector3 center;
             public float radius;
+        }
+
+        struct Light
+        {
+            
         }
 
         //récupère le premier point d'intersection atteint par le ray
@@ -47,17 +59,17 @@ namespace Synthese
                 return null;
 
 
-            float discr = b * b - c;
+            float discriminant = b * b - c;
 
             // A negative discriminant corresponds to ray missing sphere
-            if (discr < 0.0f)
+            if (discriminant < 0.0f)
                 return null;
 
             RaySphereIntersection result;
 
             // Ray now found to intersect sphere, compute smallest t value of intersection
-            float t1 = -b - (float)Math.Sqrt(discr);
-            float t2 = -b + (float)Math.Sqrt(discr);
+            float t1 = -b - (float)Math.Sqrt(discriminant);
+            float t2 = -b + (float)Math.Sqrt(discriminant);
 
             if (t1 >= 0)
                 result.distance = t1;
@@ -71,6 +83,16 @@ namespace Synthese
 
             return result;
         }
+
+
+        LightIntersection? IntersectionSphereLight(Ray ray, Light light)
+        {
+
+
+            LightIntersection r;
+            return r;
+        }
+
 
         //remplit chaque pixel d'une image avec une couleur (changeante selon si un objet a été détecté par le ray)
         public void Fill()
