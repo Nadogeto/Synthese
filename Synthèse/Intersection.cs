@@ -30,8 +30,8 @@ namespace Synthese
         //crée les données de la sphère (l'emplacement de son centre et son radius)
         public struct Sphere
         {
-            Vector3 center;
-            float radius;
+            public Vector3 center;
+            public float radius;
 
             public Sphere(Vector3 center, float radius)
             {
