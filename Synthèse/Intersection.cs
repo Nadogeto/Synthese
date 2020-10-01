@@ -53,6 +53,8 @@ namespace Synthese
             }
         }
 
+
+
         private static IList<Sphere> geometry = new List<Sphere>() {
             new Sphere(new Vector3(-1, 1, 10), 2),
             new Sphere(new Vector3(1, -1, 4), 1),
@@ -63,6 +65,32 @@ namespace Synthese
             new Light(new Point(0, 6, 0), 60),
             new Light(new Point(-2, 4, 1), 15),
             };
+
+
+
+        //public static bool Intersect(Ray ray, out int sphereIndex, out float distance,
+        //                     float minDistance = 0, float maxDistance = float.MaxValue)
+        //{
+        //    distance = maxDistance;
+        //    sphereIndex = -1;
+
+        //    for (int t = 0; t < geometry.Count; ++t)
+        //    {
+        //        float distToSphere;
+
+        //        if (geometry[t].Intersect(ray, out distToSphere))
+        //        {
+        //            if ((minDistance <= distToSphere) && (distToSphere < distance))
+        //            {
+        //                distance = distToSphere;
+        //                sphereIndex = t;
+        //            }
+        //        }
+        //    }
+
+        //    return sphereIndex != -1;
+        //}
+
 
         //récupère le premier point d'intersection atteint par le ray
         RaySphereIntersection? IntersectionRaySphere(Ray ray, Sphere sphere)
@@ -104,29 +132,6 @@ namespace Synthese
             return result;
         }
 
-        public static bool Intersect(Ray ray, out int sphereIndex, out float distance,
-                                             float minDistance = 0, float maxDistance = float.MaxValue)
-        {
-            distance = maxDistance;
-            sphereIndex = -1;
-
-            for (int t = 0; t < geometry.Count; ++t)
-            {
-                float distToSphere;
-
-                if (geometry[t].Intersect(ray, out distToSphere))
-                {
-                    if ((minDistance <= distToSphere) && (distToSphere < distance))
-                    {
-                        distance = distToSphere;
-                        sphereIndex = t;
-                    }
-                }
-            }
-
-            return sphereIndex != -1;
-        }
-
 
         //remplit chaque pixel d'une image avec une couleur (changeante selon si un objet a été détecté par le ray)
         public void Fill()
@@ -140,6 +145,7 @@ namespace Synthese
             //remplit chaque pixel (x, y)
             for (uint x = 0 ; x < img.Size.X; ++x)
             {
+                //remplit chaque pixel (x, y)
                 for (uint y = 0; y < img.Size.Y; ++y)
                 {
                     var ray = new Ray { };
@@ -154,9 +160,10 @@ namespace Synthese
                     if (intersection != null)
                         img.SetPixel(x, y, Color.Red);
 
+                    //début lumière
+
                     foreach (var light in lights)
                     {
-                        Point hitPoint = ray.origin + distance * ray.direction;
                         Vector hitPointToLight = light.position - hitPoint;
                         float distanceToLight = Vector.Length(hitPointToLight);
 
@@ -171,7 +178,7 @@ namespace Synthese
                             // point. therefore, calculate the amount of light here...
 
                             // lighting term = sphere color * dot(light vector, normal) * intensity / distance^2
-                            color += materials[hitSphere] * Math.Max(0, Vector.Dot(lightRay.Direction, normal)) * light.intensity / (float)Math.Pow(distanceToLight, 2);
+                            color += Math.Max(0, Vector.Dot(lightRay.direction, normal)) * light.intensity / (float)Math.Pow(distanceToLight, 2);
                         }
                     }
 
@@ -179,6 +186,7 @@ namespace Synthese
             }
 
             img.SaveToFile("C:/Users/ntobbal/Desktop/imgtest.png");
+            Console.WriteLine("générée");
         }
     }
 
