@@ -68,28 +68,28 @@ namespace Synthese
 
 
 
-        //public static bool Intersect(Ray ray, out int sphereIndex, out float distance,
-        //                     float minDistance = 0, float maxDistance = float.MaxValue)
-        //{
-        //    distance = maxDistance;
-        //    sphereIndex = -1;
+        public static bool Intersect(Ray ray, out int sphereIndex, out float distance,
+                             float minDistance = 0, float maxDistance = float.MaxValue)
+        {
+            distance = maxDistance;
+            sphereIndex = -1;
 
-        //    for (int t = 0; t < geometry.Count; ++t)
-        //    {
-        //        float distToSphere;
+            for (int t = 0; t < geometry.Count; ++t)
+            {
+                float distToSphere;
 
-        //        if (geometry[t].Intersect(ray, out distToSphere))
-        //        {
-        //            if ((minDistance <= distToSphere) && (distToSphere < distance))
-        //            {
-        //                distance = distToSphere;
-        //                sphereIndex = t;
-        //            }
-        //        }
-        //    }
+                if (geometry[t].Intersect(ray, out distToSphere))
+                {
+                    if ((minDistance <= distToSphere) && (distToSphere < distance))
+                    {
+                        distance = distToSphere;
+                        sphereIndex = t;
+                    }
+                }
+            }
 
-        //    return sphereIndex != -1;
-        //}
+            return sphereIndex != -1;
+        }
 
 
         //récupère le premier point d'intersection atteint par le ray
